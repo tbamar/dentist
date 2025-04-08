@@ -63,9 +63,15 @@ const Nav = () => {
 				<span className="absolute -bottom-1 left-1/2 hidden h-[2px] w-0 -translate-x-1/2 bg-blue-500 transition-all duration-300 group-hover:block group-hover:w-10"></span>
 			</Link>
 			<Link
-				href="/contact"
+				href="/contact-us"
 				className="group relative text-lg hover:text-blue-500">
 				Contact
+				<span className="absolute -bottom-1 left-1/2 hidden h-[2px] w-0 -translate-x-1/2 bg-blue-500 transition-all duration-300 group-hover:block group-hover:w-10"></span>
+			</Link>
+			<Link
+				href="/book-appointment"
+				className="group relative text-lg hover:text-blue-500">
+				Book an Appointment
 				<span className="absolute -bottom-1 left-1/2 hidden h-[2px] w-0 -translate-x-1/2 bg-blue-500 transition-all duration-300 group-hover:block group-hover:w-10"></span>
 			</Link>
 		</div>

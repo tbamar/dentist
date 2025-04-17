@@ -13,6 +13,9 @@ export default function HomePage() {
 				<HeaderSection />
 			</section>
 			<section className="px-10 ">
+				<h1 className="text-5xl font-bold flex justify-center items-center ">
+					Clinic Overview
+				</h1>
 				<ClinicOverview />
 			</section>
 			<section className="px-10 py-24">

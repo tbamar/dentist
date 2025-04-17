@@ -19,7 +19,7 @@ const complexServices = [
 ];
 
 const ClinicOverview: React.FC = () => (
-	<section className=" mx-auto bg-white shadow-md rounded-lg overflow-hidden">
+	<section className="pt-6 mx-auto bg-white  rounded-lg overflow-hidden">
 		{/* Hero / Intro */}
 		<div className="grid grid-cols-1 md:grid-cols-2">
 			{/* Image placeholder */}

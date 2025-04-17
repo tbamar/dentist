@@ -9,34 +9,43 @@ const WhatWeDo = () => {
 					<Image
 						src={'/images/about/wedo.png'}
 						alt="what we do"
-						width={500}
-						height={500}
-						className="h-full w-full object-cover"
+						width={300}
+						height={300}
+						className="h-[500px] w-full object-cover"
 					/>
-					{/* absolute grid patterm */}
-					<div className="absolute -top-8 -right-16 ">
-						<Image
-							src={'/images/about/pattern.png'}
-							alt="what we do"
-							width={270}
-							height={240}
-						/>
-					</div>
 				</div>
 
 				{/* content */}
 				<div className="content">
-					<label>what we do</label>
-					<h1>True Healthcare for your family</h1>
+					<label>About us</label>
+
 					<p>
-						The quick, brown fox jumps over a lazy dog. DJs flock by
-						when MTV ax quiz prog. Junk MTV quiz graced by fox
-						whelps. Bawds jog, flick quartz, vex nymphs. Waltz, bad
-						nymph, for quick jigs vex! Fox nymphs grab quick-jived
-						waltz. Brick quiz whangs jumpy veldt fox. Bright vixens
-						jump; dozy fowl quack. Quick wafting zephyrs vex bold
-						Jim. Quick
+						32 SMILE DENTAL & MAXILLOFACIAL CLINIC is located in one
+						of the prime locations of college street in central
+						kolkata established 10 years back since 2015.In this
+						span of time we have already performed all sorts of
+						basic dental treatment scaling and polishing;dental
+						fillings,complete and partial dentures,root canal
+						treatments,simple teeth extractions,gum surgeries as
+						well as many complex cases including third molar
+						surgeries,implant surgeries and complex maxillofacial
+						cases of road traffic accidents ,cleft surgeries etc.At
+						our clinic we also provide services to the young and
+						elderly patients of any age group with utmost care and
+						priority .
 					</p>
+					<i>
+						Our clinic is well equipped with all modern dental
+						equipments along with intra oral digital xrays with
+						maintaining the basics of all modern sterilization
+						protocols .We here ensure to provide the best dental
+						treatment to our patients along with the experience and
+						expertise of our team of doctors who has a experience of
+						more than 15 years in this field. We at 32 smile dental
+						and maxillofacial clinic perform all dental and
+						maxillofacial treatment with an endevour to give
+						services to all at an affordable cost.
+					</i>
 				</div>
 			</div>
 		</div>

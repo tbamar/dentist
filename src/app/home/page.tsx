@@ -6,6 +6,7 @@ import DoctorDetails from './_components/DoctorDetails';
 import DoctorCards from './_components/DoctorDetails';
 import TreatmentCards from '../services/_components/Demo';
 import ClinicOverview from './_components/ClinicOverview';
+import GalleryCards from './_components/GalleryCards';
 export default function HomePage() {
 	return (
 		<main className="pt-24">
@@ -29,6 +30,12 @@ export default function HomePage() {
 					Treatments We Provide:
 				</h1>
 				<TreatmentCards />
+			</section>
+			<section className="px-10 pb-24 ">
+				<h1 className="text-5xl font-bold flex justify-center items-center ">
+					Our Gallery
+				</h1>
+				<GalleryCards />
 			</section>
 		</main>
 	);

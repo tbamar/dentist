@@ -5,8 +5,8 @@ import { Button } from '@/components/ui/button';
 
 const HeaderSection = () => {
 	return (
-		<div className="pt-10 bg-[url(/images/home/header.webp)] h-screen bg-cover relative bg-center">
-			<div className="absolute top-[25%] left-10 flex flex-col gap-8 w-1/2 ">
+		<div className="pt-10  bg-[url(/images/home/header.webp)] h-screen bg-cover relative bg-center">
+			<div className="absolute  top-[25%] left-10 flex flex-col gap-8 w-1/2 ">
 				<h1 className="uppercase tracking-[25%] font-semibold ">
 					we use latest medical technology
 				</h1>

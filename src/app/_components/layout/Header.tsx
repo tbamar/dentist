@@ -50,7 +50,7 @@ const Nav = () => {
 				Home
 				<span className="absolute -bottom-1 left-1/2 hidden h-[2px] w-0 -translate-x-1/2 bg-blue-500 transition-all duration-300 group-hover:block group-hover:w-10"></span>
 			</Link>
-			<Link
+			{/* <Link
 				href="/about-us"
 				className="group relative text-lg hover:text-blue-500">
 				About
@@ -61,7 +61,7 @@ const Nav = () => {
 				className="group relative text-lg hover:text-blue-500">
 				Services
 				<span className="absolute -bottom-1 left-1/2 hidden h-[2px] w-0 -translate-x-1/2 bg-blue-500 transition-all duration-300 group-hover:block group-hover:w-10"></span>
-			</Link>
+			</Link> */}
 			<Link
 				href="/contact-us"
 				className="group relative text-lg hover:text-blue-500">
@@ -86,12 +86,14 @@ const Header = () => {
 			{/* Desktop Header */}
 			<div className="hidden md:block bg-white border-b">
 				<div className="container mx-auto flex justify-between items-center py-4 px-6">
-					<Link href="/">
+					<Link
+						className="bg-white h-full"
+						href="/">
 						<Image
-							src="/LogoDark.webp"
+							src="/logo.jpg"
 							alt="Logo"
 							width={100}
-							height={100}
+							height={200}
 						/>
 					</Link>
 					<Nav />

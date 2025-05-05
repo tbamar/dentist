@@ -6,7 +6,9 @@ const page = () => {
 	return (
 		<div className="pt-24">
 			<Banner name="Book Appointment" />
-			<AppointmentForm />
+			<section className="w-full  mx-auto">
+				<AppointmentForm />
+			</section>
 		</div>
 	);
 };

@@ -6,6 +6,7 @@ import { createMeeting, getAvailableSlots } from '@/actions/meet-action';
 import { DayPicker } from 'react-day-picker';
 import { format } from 'date-fns';
 import 'react-day-picker/style.css';
+import { toast } from 'react-toastify';
 
 export default function AppointmentForm() {
 	const [state, formMeetAction] = useFormState(createMeeting, {
@@ -47,7 +48,7 @@ export default function AppointmentForm() {
 		}
 	};
 
-	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		const formData = new FormData(event.currentTarget);
 		if (
@@ -55,13 +56,22 @@ export default function AppointmentForm() {
 			!formData.get('selectedCalendarDate')
 		) {
 			setTimetableError('Please select a date and time slot');
-		} else {
-			formMeetAction(formData);
-			setShowMessage(true);
-			setTimetableError('');
-			setSelectedDate(undefined);
-			setAvailableSlots([]);
 		}
+		await formMeetAction(formData);
+
+		// Show toast notification after form submission
+		toast.success('Meeting has been scheduled successfully!', {
+			position: 'top-right',
+			autoClose: 5000,
+			hideProgressBar: false,
+			closeOnClick: true,
+			pauseOnHover: true,
+			draggable: true,
+		});
+		// Reset the form after successful submission
+		setSelectedDate(undefined);
+		setAvailableSlots([]);
+		event.currentTarget.reset();
 	};
 
 	const resetForm = (event: React.MouseEvent<HTMLButtonElement>) => {

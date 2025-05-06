@@ -1,9 +1,10 @@
 import '@/styles/globals.css';
-
 import { type Metadata } from 'next';
 import { Geist } from 'next/font/google';
 import Header from './_components/layout/Header';
 import Footer from './_components/layout/Footer';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const metadata: Metadata = {
 	title: 'Create T3 App',
@@ -27,6 +28,7 @@ export default function RootLayout({
 				<Header />
 				{children}
 				<Footer />
+				<ToastContainer />
 			</body>
 		</html>
 	);

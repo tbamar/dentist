@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useFormState } from 'react-dom';
+import { useActionState } from 'react';
 import { createMeeting, getAvailableSlots } from '@/actions/meet-action';
 import { DayPicker } from 'react-day-picker';
 import { format } from 'date-fns';
@@ -9,7 +9,7 @@ import 'react-day-picker/style.css';
 import { toast } from 'react-toastify';
 
 export default function AppointmentForm() {
-	const [state, formMeetAction] = useFormState(createMeeting, {
+	const [state, formMeetAction] = useActionState(createMeeting, {
 		message: '',
 	});
 	const [selected, setSelectedDate] = useState<Date>();
@@ -68,10 +68,6 @@ export default function AppointmentForm() {
 			pauseOnHover: true,
 			draggable: true,
 		});
-		// Reset the form after successful submission
-		setSelectedDate(undefined);
-		setAvailableSlots([]);
-		event.currentTarget.reset();
 	};
 
 	const resetForm = (event: React.MouseEvent<HTMLButtonElement>) => {

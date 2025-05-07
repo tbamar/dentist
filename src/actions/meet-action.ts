@@ -173,7 +173,7 @@ export const createMeeting = async (
 		calendarId: calendarId,
 		requestBody: event,
 	});
-
+	console.log(meeting);
 	if (meeting?.data) {
 		if (meeting.status === 200) {
 			message = 'Meeting has been added to my calendar';

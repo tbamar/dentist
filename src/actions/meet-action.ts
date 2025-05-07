@@ -159,6 +159,7 @@ export const createMeeting = async (
 		calendarId,
 		requestBody: event,
 	});
+	// debug
 	console.log('Insert response:', resp.status, resp.data);
 
 	const message =

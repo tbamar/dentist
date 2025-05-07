@@ -1,4 +1,5 @@
 // components/DoctorCards.tsx
+import Image from 'next/image';
 import React from 'react';
 
 interface Doctor {
@@ -6,11 +7,13 @@ interface Doctor {
 	qualifications: string;
 	training: string[];
 	currentRoles: string[];
+	imageUrl: string;
 }
 
 const doctors: Doctor[] = [
 	{
 		name: 'Dr. Torsha Ray Bhattacharyya',
+		imageUrl: '/images/profile/profile.jpg',
 		qualifications:
 			'BDS, KLE Institute of Dental Science, Bangalore; MDS (Gold Medalist) in Oral Medicine & Radiodiagnosis, AECS Maaruti Institute of Dental Sciences',
 		training: [
@@ -24,8 +27,10 @@ const doctors: Doctor[] = [
 			'Oral Radiologist, Scandent Bengal',
 		],
 	},
+
 	{
 		name: 'Dr. Saibal Bhattacharyya',
+		imageUrl: '/profile/profile.jpg',
 		qualifications:
 			'BDS, MS Ramaiah Dental College, Bangalore; MDS in Oral & Maxillofacial Surgery, Awadh Dental College & Hospital, Jamshedpur',
 		training: [
@@ -47,8 +52,14 @@ const DoctorCards: React.FC = () => (
 				key={idx}
 				className="bg-white rounded-lg shadow flex flex-col overflow-hidden">
 				{/* Profile image placeholder */}
-				<div className="h-64 bg-muted flex items-center justify-center">
-					<span className="text-gray-500">No Image</span>
+				<div className="bg-muted flex items-center justify-center ">
+					<Image
+						src={doc.imageUrl}
+						alt={doc.name}
+						width={100}
+						height={100}
+						className="h-72 w-72 rounded-full object-cover"
+					/>
 				</div>
 				<div className="p-4 flex-1 flex flex-col">
 					<h3 className="text-xl font-semibold mb-2">{doc.name}</h3>

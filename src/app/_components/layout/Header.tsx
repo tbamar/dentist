@@ -12,7 +12,7 @@ interface Props {
 
 const MobileNavLinks = ({ handleLinkClick }: Props) => {
 	return (
-		<div className="flex flex-col space-y-4">
+		<div className="flex flex-col space-y-4 ">
 			<Link
 				href="/"
 				onClick={handleLinkClick}
@@ -43,7 +43,7 @@ const MobileNavLinks = ({ handleLinkClick }: Props) => {
 
 const Nav = () => {
 	return (
-		<div className="flex items-center gap-10">
+		<div className="flex items-center gap-10 font-semibold">
 			<Link
 				href="/"
 				className="group relative text-lg hover:text-blue-500">
@@ -85,15 +85,16 @@ const Header = () => {
 		<header className="fixed top-0 w-full z-50">
 			{/* Desktop Header */}
 			<div className="hidden md:block bg-white border-b">
-				<div className="container mx-auto flex justify-between items-center py-4 px-6">
+				<div className="container mx-auto flex justify-between items-center py-4 px-6 h-24">
 					<Link
-						className="bg-white h-full"
+						className="bg-white h-20 flex items-center justify-center"
 						href="/">
 						<Image
 							src="/logo.jpg"
 							alt="Logo"
-							width={100}
-							height={200}
+							width={70}
+							height={50}
+							className="object-cover"
 						/>
 					</Link>
 					<Nav />

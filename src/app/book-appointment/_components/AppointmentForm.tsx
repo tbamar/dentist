@@ -152,7 +152,8 @@ export default function AppointmentForm() {
 						id="selectedCalendarDate"
 						name="selectedCalendarDate"
 						type="hidden"
-						value={selected ? selected.toLocaleDateString() : ''}
+						// ALWAYS 'yyyy-MM-dd', e.g. '2025-05-12'
+						value={selected ? format(selected, 'yyyy-MM-dd') : ''}
 					/>
 
 					<div className="sm:ms-7 sm:ps-5 sm:border-s border-gray-200 dark:border-gray-800 w-full sm:max-w-[15rem] mt-5 sm:mt-0">

@@ -31,12 +31,12 @@ export default function HomePage() {
 				</h1>
 				<TreatmentCards />
 			</section>
-			<section className="px-10 pb-24 ">
+			{/* <section className="px-10 pb-24 ">
 				<h1 className="text-5xl font-bold flex justify-center items-center ">
 					Our Gallery
 				</h1>
 				<GalleryCards />
-			</section>
+			</section> */}
 		</main>
 	);
 }

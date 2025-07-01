@@ -13,8 +13,8 @@ const HeaderSection = () => {
 				<div className="text-blue-900 text-6xl font-extrabold leading-[5rem]">
 					Let Us Brighten Your Smile
 				</div>
-				<Button className="px-10 w-1/3 py-8 bg-blue-500 text-white rounded">
-					Who We Are
+				<Button className="px-10 w-1/3 py-8 bg-blue-custom text-white rounded">
+					<Link href="#clinic-overview">Who We Are</Link>
 				</Button>
 			</div>
 		</div>

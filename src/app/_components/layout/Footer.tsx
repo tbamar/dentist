@@ -1,11 +1,30 @@
+import Link from 'next/link';
 import React from 'react';
 
 const Footer = () => {
+	const usefulLinks = [
+		{
+			name: 'Home',
+			href: '#',
+		},
+		{
+			name: 'Gallery',
+			href: '#',
+		},
+		{
+			name: 'Contact Us',
+			href: '#',
+		},
+		{
+			name: 'Book an Appointment',
+			href: '/book-appointment',
+		},
+	];
 	return (
 		<div className="bg-blue-custom ">
-			<footer className="grid grid-cols-4 p-40 text-white">
+			<footer className="grid grid-cols-3 p-10 text-white">
 				<div className="bg-blue-950 p-10">
-					<h2 className="text-xl font-bold">Contact Us</h2>
+					<h2 className="text-xl font-bold  py-4">Contact Us</h2>
 					<ul className="flex flex-col gap-4 ">
 						<li> 66 broklyant, new York India 3269 road.</li>
 						<li> 012 345 678 9101</li>
@@ -15,22 +34,27 @@ const Footer = () => {
 				</div>
 				{/* Useful Links */}
 				<div className="bg-blue-900 p-10">
-					<h2 className="text-xl font-bold">Useful Links</h2>
+					<h2 className="text-xl font-bold py-4">Useful Links</h2>
 					<ul
 						style={{ listStyleType: 'square' }}
 						className="flex flex-col gap-4 ">
-						<li> About Us</li>
-						<li> Team</li>
-						<li>Testimonial</li>
-						<li> Services</li>
+						{usefulLinks.map((link) => (
+							<li key={link.name}>
+								<Link
+									href={link.href}
+									className="text-white hover:text-blue-500 active:text-blue-900">
+									{link.name}
+								</Link>
+							</li>
+						))}
 					</ul>
 				</div>
 				{/* Social Links */}
 				<div className="bg-blue-950 p-10">
-					<h2 className="text-xl font-bold">Social Links</h2>
-					<ul
-						style={{ listStyleType: 'square' }}
-						className="flex flex-col gap-4 ">
+					<h2 className="text-xl font-bold  py-4">Social Links</h2>
+					Visit 32 Smile on these social links and connect with us.
+					Make sure to follow our accounts for regular updates.
+					<ul className="flex gap-4 ">
 						<li> Facebook</li>
 						<li> Twitter</li>
 						<li> Instagram</li>
@@ -38,7 +62,7 @@ const Footer = () => {
 					</ul>
 				</div>
 				{/* Services */}
-				<div className="bg-blue-900 p-10">
+				{/* <div className="bg-blue-900 p-10">
 					<h2 className="text-xl font-bold ">Services</h2>
 					<ul
 						style={{ listStyleType: 'square' }}
@@ -48,7 +72,7 @@ const Footer = () => {
 						<li> Service 3</li>
 						<li>Service 4</li>
 					</ul>
-				</div>
+				</div> */}
 			</footer>
 		</div>
 	);

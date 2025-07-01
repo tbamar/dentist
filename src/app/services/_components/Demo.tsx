@@ -149,7 +149,7 @@ const TreatmentCards: React.FC = () => (
 			<article
 				key={idx}
 				className="bg-white rounded-lg shadow-lg flex flex-col overflow-hidden w-full sm:w-72">
-				<header className="bg-blue-600 text-white px-4 py-2 text-lg font-bold">
+				<header className="bg-blue-custom text-white px-4 py-2 text-lg font-bold">
 					{card.title}
 				</header>
 				<div className="p-4 flex-1">

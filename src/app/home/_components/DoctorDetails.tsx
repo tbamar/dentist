@@ -13,7 +13,7 @@ interface Doctor {
 const doctors: Doctor[] = [
 	{
 		name: 'Dr. Torsha Ray Bhattacharyya',
-		imageUrl: '/images/profile/profile.jpg',
+		imageUrl: '/images/profile/saibal.jpg',
 		qualifications:
 			'BDS, KLE Institute of Dental Science, Bangalore; MDS (Gold Medalist) in Oral Medicine & Radiodiagnosis, AECS Maaruti Institute of Dental Sciences',
 		training: [
@@ -30,7 +30,7 @@ const doctors: Doctor[] = [
 
 	{
 		name: 'Dr. Saibal Bhattacharyya',
-		imageUrl: '/profile/profile.jpg',
+		imageUrl: '/images/profile/torsha.jpg',
 		qualifications:
 			'BDS, MS Ramaiah Dental College, Bangalore; MDS in Oral & Maxillofacial Surgery, Awadh Dental College & Hospital, Jamshedpur',
 		training: [

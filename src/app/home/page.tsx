@@ -13,7 +13,9 @@ export default function HomePage() {
 			<section className="pb-24">
 				<HeaderSection />
 			</section>
-			<section className="px-10 ">
+			<section
+				id="clinic-overview"
+				className="px-10 ">
 				<h1 className="text-5xl font-bold flex justify-center items-center ">
 					Clinic Overview
 				</h1>
@@ -31,6 +33,8 @@ export default function HomePage() {
 				</h1>
 				<TreatmentCards />
 			</section>
+			<hr />
+
 			{/* <section className="px-10 pb-24 ">
 				<h1 className="text-5xl font-bold flex justify-center items-center ">
 					Our Gallery

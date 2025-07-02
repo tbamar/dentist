@@ -4,12 +4,12 @@ import Banner from '../_components/global/Banner';
 
 const page = () => {
 	return (
-		<div className="pt-24">
+		<div className="pt-20">
 			<Banner name="Book Appointment" />
-			<section className="w-full grid grid-cols-2  px-20 ">
+			<section className="w-full grid grid-cols-2  px-20 pt-14">
 				<div
 					className="flex flex-col text-start  justify-start
-				items-start   p-4">
+				items-start gap-4  p-4">
 					<h1 className="text-7xl font-bold">Book with </h1>
 					<h1 className="text-5xl font-semibold">Your Dentist</h1>
 					<p className="text-lg">

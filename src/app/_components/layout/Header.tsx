@@ -92,7 +92,7 @@ const Header = () => {
 							className="object-cover h-full"
 						/>
 					</Link>
-					<Nav />
+					{/* <Nav /> */}
 					<Button className="px-10 py-6 bg-blue-custom text-white rounded">
 						<Link href="/book-appointment">Get Appointment</Link>
 					</Button>

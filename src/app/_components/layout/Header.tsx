@@ -82,14 +82,14 @@ const Header = () => {
 			<div className="hidden md:block bg-white border-b">
 				<div className=" px-10 flex justify-between items-center py-4 h-22">
 					<Link
-						className="bg-white h-12 flex items-center justify-center"
+						className="bg-white  flex items-center justify-center"
 						href="/">
 						<Image
 							src="/logo.jpg"
 							alt="Logo"
 							width={70}
 							height={50}
-							className="object-cover h-full"
+							className="object-cover  "
 						/>
 					</Link>
 					{/* <Nav /> */}

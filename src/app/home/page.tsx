@@ -9,8 +9,8 @@ import ClinicOverview from './_components/ClinicOverview';
 import GalleryCards from './_components/GalleryCards';
 export default function HomePage() {
 	return (
-		<main className="pt-24">
-			<section className="pb-24">
+		<main className="">
+			<section className="pb-24 pt-20">
 				<HeaderSection />
 			</section>
 			<section
@@ -21,26 +21,37 @@ export default function HomePage() {
 				</h1>
 				<ClinicOverview />
 			</section>
-			<section className="px-10 py-24">
+			<section className="px-10 pt-24">
 				<h1 className="text-5xl font-bold flex justify-center items-center ">
 					Meet Our Doctors
 				</h1>
 				<DoctorCards />
 			</section>
-			<section className="px-10 pb-24 ">
+			<section
+				id="services"
+				className="px-10 pt-24 ">
 				<h1 className="text-5xl font-bold flex justify-center items-center ">
 					Treatments We Provide:
 				</h1>
 				<TreatmentCards />
 			</section>
-			<hr />
 
-			{/* <section className="px-10 pb-24 ">
+			<section
+				id="gallery"
+				className="px-10 pt-24 ">
 				<h1 className="text-5xl font-bold flex justify-center items-center ">
 					Our Gallery
 				</h1>
 				<GalleryCards />
-			</section> */}
+			</section>
+			<section
+				id="contact"
+				className="px-10 py-24 ">
+				<h1 className="text-5xl font-bold flex justify-center items-center ">
+					Contact Us
+				</h1>
+				{/* Contact Form */}
+			</section>
 		</main>
 	);
 }

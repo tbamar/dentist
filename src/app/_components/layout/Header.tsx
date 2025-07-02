@@ -51,28 +51,22 @@ const Nav = () => {
 				<span className="absolute -bottom-1 left-1/2 hidden h-[2px] w-0 -translate-x-1/2 bg-blue-500 transition-all duration-300 group-hover:block group-hover:w-10"></span>
 			</Link>
 			<Link
-				href="/gallery"
+				href="#gallery"
 				className="group relative text-lg hover:text-blue-500">
 				Gallery
 				<span className="absolute -bottom-1 left-1/2 hidden h-[2px] w-0 -translate-x-1/2 bg-blue-500 transition-all duration-300 group-hover:block group-hover:w-10"></span>
 			</Link>
-			{/* <Link
+
 			<Link
-				href="/services"
+				href="#services"
 				className="group relative text-lg hover:text-blue-500">
 				Services
 				<span className="absolute -bottom-1 left-1/2 hidden h-[2px] w-0 -translate-x-1/2 bg-blue-500 transition-all duration-300 group-hover:block group-hover:w-10"></span>
-			</Link> */}
-			<Link
-				href="/contact-us"
-				className="group relative text-lg hover:text-blue-500">
-				Contact
-				<span className="absolute -bottom-1 left-1/2 hidden h-[2px] w-0 -translate-x-1/2 bg-blue-500 transition-all duration-300 group-hover:block group-hover:w-10"></span>
 			</Link>
 			<Link
-				href="/book-appointment"
+				href="#contact"
 				className="group relative text-lg hover:text-blue-500">
-				Book an Appointment
+				Contact
 				<span className="absolute -bottom-1 left-1/2 hidden h-[2px] w-0 -translate-x-1/2 bg-blue-500 transition-all duration-300 group-hover:block group-hover:w-10"></span>
 			</Link>
 		</div>
@@ -86,20 +80,20 @@ const Header = () => {
 		<header className="fixed top-0 w-full z-50">
 			{/* Desktop Header */}
 			<div className="hidden md:block bg-white border-b">
-				<div className=" px-10 flex justify-between items-center py-4 h-24">
+				<div className=" px-10 flex justify-between items-center py-4 h-22">
 					<Link
-						className="bg-white h-20 flex items-center justify-center"
+						className="bg-white h-12 flex items-center justify-center"
 						href="/">
 						<Image
 							src="/logo.jpg"
 							alt="Logo"
 							width={70}
 							height={50}
-							className="object-cover"
+							className="object-cover h-full"
 						/>
 					</Link>
 					<Nav />
-					<Button className="px-10 py-8 bg-blue-custom text-white rounded">
+					<Button className="px-10 py-6 bg-blue-custom text-white rounded">
 						<Link href="/book-appointment">Get Appointment</Link>
 					</Button>
 				</div>

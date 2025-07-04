@@ -19,20 +19,20 @@ const complexServices = [
 ];
 
 const ClinicOverview: React.FC = () => (
-	<section className="pt-6 mx-auto bg-white  rounded-lg overflow-hidden">
-		<div className="grid grid-cols-1  md:grid-cols-2 gap-10 px-4">
+	<section className="md:pt-6 pt-2 mx-auto bg-white  rounded-lg overflow-hidden">
+		<div className="grid grid-cols-1  md:grid-cols-2 md:gap-10 gap-4 px-4">
 			<div className="  relative   bg-gray-200 flex items-center justify-center">
 				<Image
 					src={'/images/about/overview.jpg'}
 					alt="what we do"
 					width={300}
 					height={300}
-					className="h-[400px] w-full  object-cover rounded-2xl"
+					className="h-[400px] w-full  object-cover md:rounded-2xl"
 				/>
 			</div>
 			{/* Intro text */}
 			<div className="flex flex-col justify-center">
-				<h2 className="text-2xl font-bold mb-2">
+				<h2 className="md:text-2xl text-xl font-bold mb-2">
 					32 Smile Dental & Maxillofacial Clinic
 				</h2>
 				<p className="text-gray-600 mb-4">
@@ -46,7 +46,7 @@ const ClinicOverview: React.FC = () => (
 					expertise—and all at affordable costs.
 				</p>
 				{/* Services Grid */}
-				<div className=" grid grid-cols-1 sm:grid-cols-2 gap-6 ">
+				<div className=" grid grid-cols-1 sm:grid-cols-2 md:gap-6 gap-2">
 					<div>
 						<h3 className="text-lg font-semibold mb-2">
 							Basic Treatments

@@ -144,7 +144,7 @@ const cardData: CardData[] = [
 ];
 
 const TreatmentCards: React.FC = () => (
-	<div className="flex flex-wrap gap-6 md:p-6 justify-center ">
+	<div className="flex flex-wrap gap-6 md:p-6 justify-center pt-4">
 		{cardData.map((card, idx) => (
 			<article
 				key={idx}

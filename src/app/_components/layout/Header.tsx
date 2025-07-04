@@ -93,9 +93,11 @@ const Header = () => {
 						/>
 					</Link>
 					{/* <Nav /> */}
-					<Button className="px-10 py-6 bg-blue-custom text-white rounded">
-						<Link href="/book-appointment">Get Appointment</Link>
-					</Button>
+					<Link href="/book-appointment">
+						<Button className="px-10 py-6 cursor-pointer bg-blue-custom text-white rounded">
+							Get Appointment
+						</Button>
+					</Link>
 				</div>
 			</div>
 

@@ -45,10 +45,14 @@ const page = () => {
 					<div className="">
 						<h2 className="text-xl font-bold  py-4">Contact Us</h2>
 						<ul className="flex flex-col gap-4 ">
-							<li> 66 broklyant, new York India 3269 road.</li>
-							<li> 012 345 678 9101</li>
-							<li> yourmail.@gmail.com</li>
-							<li> 3</li>
+							<li>
+								29, Shreegopal Mullick Ln,
+								<br />
+								Newland College Square, Kolkata, West Bengal
+								700012
+							</li>
+							<li> +917338436393</li>
+							<li> 32smiledental2019@gmail.com</li>
 						</ul>
 					</div>
 				</div>

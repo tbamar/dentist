@@ -9,12 +9,9 @@ const Footer = () => {
 		},
 		{
 			name: 'Gallery',
-			href: '#',
+			href: '#gallery',
 		},
-		{
-			name: 'Contact Us',
-			href: '#',
-		},
+
 		{
 			name: 'Book an Appointment',
 			href: '/book-appointment',
@@ -23,18 +20,20 @@ const Footer = () => {
 	return (
 		<div className="bg-blue-custom ">
 			<footer className="grid md:grid-cols-3 md:p-10 text-white">
-				<div className="bg-blue-950 p-10">
+				<div className="bg-blue-950 p-10 order-2 md:order-1">
 					<h2 className="text-xl font-bold  py-4">Contact Us</h2>
 					<ul className="flex flex-col gap-4 ">
-						<li> 66 broklyant, new York India 3269 road.</li>
-						<li> 012 345 678 9101</li>
-						<li> yourmail.@gmail.com</li>
-						<li> 3</li>
+						<li>
+							29, Shreegopal Mullick Ln, Newland College Square,
+							Kolkata, West Bengal 700012
+						</li>
+						<li> +917338436393</li>
+						<li> 32smiledental2019@gmail.com</li>
 					</ul>
 				</div>
 				{/* Useful Links */}
-				<div className="bg-blue-900 p-10">
-					<h2 className="text-xl font-bold py-4">Useful Links</h2>
+				<div className="bg-blue-900 p-10 order-1 md:order-2">
+					<h2 className="text-xl font-bold py-4">Quick Links</h2>
 					<ul
 						style={{ listStyleType: 'square' }}
 						className="flex flex-col gap-4 ">
@@ -50,7 +49,7 @@ const Footer = () => {
 					</ul>
 				</div>
 				{/* Social Links */}
-				<div className="bg-blue-950 md:p-10">
+				<div className="bg-blue-950 md:p-10 order-3 ">
 					<h2 className="text-xl font-bold  py-4">Social Links</h2>
 					Visit 32 Smile on these social links and connect with us.
 					Make sure to follow our accounts for regular updates.

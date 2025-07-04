@@ -46,7 +46,7 @@ const doctors: Doctor[] = [
 ];
 
 const DoctorCards: React.FC = () => (
-	<div className="grid md:grid-cols-2 gap-6 p-6">
+	<div className="grid md:grid-cols-2 gap-6 md:p-6 p-4">
 		{doctors.map((doc, idx) => (
 			<div
 				key={idx}

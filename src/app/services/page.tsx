@@ -3,8 +3,8 @@ import FaqAccordian from './_components/FaqAccordian';
 import Banner from '../_components/global/Banner';
 import { dentalServices } from './_utils/serviceData';
 import ServiceCard from './_components/ServiceCard';
-import DenturesDemo from './_components/Demo';
-import TreatmentCards from './_components/Demo';
+import DenturesDemo from './_components/ServiceCards';
+import TreatmentCards from './_components/ServiceCards';
 
 const page = () => {
 	return (

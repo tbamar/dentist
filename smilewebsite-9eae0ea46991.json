@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "smilewebsite",
+  "private_key_id": "9eae0ea46991026bd9de16b7295bf89b91523c36",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDFyFOKRvba4f9H\nDyQwkl1UlS8leUVYilL5QTB4OgnbMlll8Ue/IrtE+/H7dXQCTIqExx6bj8H0sLke\nmhAgKoOlRb8zkMxMwJf9AtB4IInB8ROcNJ9XINJvAbrHHOyiJXrkUILZkWpHUXYL\nEz4H031H7zQo8FOysk9xNvmZqRBrdJi3IHEqX1sqbOW3o6v3qIh/17eQirQs9hSG\nL6zRO8tFIq52zZvyZVT3kxinuq60NQ6b0ybgrflAFVKENsDh405KxMA254akULU/\nrz2IHTCPdGhyuTkEKIpweqwPiUKEuqYlS8jY2jI0G4xJlHRCn5Mm+U6GLagJAGLj\nimdm4bLvAgMBAAECggEABwtzS6SVcbHFDvnkwcTPhY4UHNNB+2e0kY5B32EUgss7\nUJyUf/leZD75HTTPdK7XQZLPbfO5O9xOQQnJyJYwaY2fbthvKSNfBohiy98/fjn2\nXIT/UUd+V1ffbZeD0jlgNDZYmCP203gnqo39PU100+rFl9kKPNOJwtrrbw63jVbi\nD1qzQ7Dg2XF+S6KMNMduM5w7AicdA9Lb8Kg0zGLoWB2nnUoTgtKtfTE7ed1F/g/e\n0KuSXzYiibOiKNhmcB31YmXiIvIHU974+CSb8DYfGcgwh0qcENsbciDnNJfIzf57\n3BA+JnzmKDxLptbvYDe2B6oUmC6HjYxQknEPvEEtCQKBgQD58v78E10M6T7xRGP2\n9QYrgCHKCOHqxysElhNIg4xsD2/Im9xy+qV6e09Qv0K/yvPOrkvcm21RtOTQtWkp\nExiG+8+XOhki1aONPftXNNxE0L0FXhGMaJVku/snOWZs7VOhtXfJ5ztuBrqhtZEj\nHyjNcwM/AkZRoJHBRBxuavQmQwKBgQDKkgn+bGyWTqrlAnR5djC2qmpMmyFUR6YF\nR7gRxMeHPFoiLapDhLAQT0uRLGqkhRttkDIcTqDcM7FYQ7hcDjWc0/3D5J/vIeGF\nikjkXvHjv/bG+Ky3YI4Ib0KB24wk+m/X43FYUM5T5lZv6zULs9ApF+3X/q5Nlui2\n421LkMGT5QKBgHGPxeohohVLpB1aRVDe4n7BKJjykDJra1AaH4jCu/ocyV0L840J\n9EVB4Td+roUVYNB2wGDq/TAyUAPDaJQQ6QPrRNYgv2rkRfrWPmvQyIM7k6Xsp2xz\n1+x8vA+GNNMowOan3FUPiiDjTchLBjY+4fr2VnM6RViw64gzufcxANyhAoGARA5g\ncSv4J19yptH2U8BTiWsjn20W+3u+2VNJEh8scdDi70ysQVbY2AHr/3AOvAtENcEW\nNNBt1s0/LcpCrBrSBEhsn122Jd8aJ4VYC/GiDsQ1oo91Z352+Xp3u60JHntNDBkL\nwYIUb7eZHqzE+5ODweqaK9ESulqTAK7Tz2lov8kCgYA/SzD6epcZCzx8aCvoSmsk\n0TwOMbkNk4PtlIG7QuAdI3syZTnDRnPTIGCMHxCCa83J99Az970jA+hqU6aftydF\nTh8LYmoIE0jaaB3L3rMBQXfO5wHcr+UQYYRC5IfHb5nfeMgACAW5XYLLZTW7TybW\nrKZyCqCKmVDHZlsr3RsiAA==\n-----END PRIVATE KEY-----\n",
+  "client_email": "smile-website@smilewebsite.iam.gserviceaccount.com",
+  "client_id": "102931503063449234841",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/smile-website%40smilewebsite.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

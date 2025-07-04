@@ -80,7 +80,7 @@ export default function AppointmentForm() {
 	};
 
 	return (
-		<div className="flex items-center justify-center p-10">
+		<div className="md:flex items-center justify-center md:p-10">
 			<form
 				name="meeting-invitation-form"
 				className="flex flex-col gap-4"

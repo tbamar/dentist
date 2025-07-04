@@ -22,7 +22,7 @@ const Footer = () => {
 	];
 	return (
 		<div className="bg-blue-custom ">
-			<footer className="grid grid-cols-3 p-10 text-white">
+			<footer className="grid md:grid-cols-3 md:p-10 text-white">
 				<div className="bg-blue-950 p-10">
 					<h2 className="text-xl font-bold  py-4">Contact Us</h2>
 					<ul className="flex flex-col gap-4 ">
@@ -50,7 +50,7 @@ const Footer = () => {
 					</ul>
 				</div>
 				{/* Social Links */}
-				<div className="bg-blue-950 p-10">
+				<div className="bg-blue-950 md:p-10">
 					<h2 className="text-xl font-bold  py-4">Social Links</h2>
 					Visit 32 Smile on these social links and connect with us.
 					Make sure to follow our accounts for regular updates.

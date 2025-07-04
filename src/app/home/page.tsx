@@ -10,19 +10,19 @@ import GalleryCards from './_components/GalleryCards';
 export default function HomePage() {
 	return (
 		<main className="">
-			<section className="pb-24 pt-20">
+			<section className="md:pb-24 pb-14 pt-20">
 				<HeaderSection />
 			</section>
 			<section
 				id="clinic-overview"
-				className="px-10 ">
-				<h1 className="text-5xl font-bold flex justify-center items-center ">
+				className="md:px-10 ">
+				<h1 className="md:text-5xl font-bold flex justify-center items-center ">
 					Clinic Overview
 				</h1>
 				<ClinicOverview />
 			</section>
-			<section className="px-10 pt-24">
-				<h1 className="text-5xl font-bold flex justify-center items-center ">
+			<section className="md:px-10 md:pt-24">
+				<h1 className="md:text-5xl font-bold flex justify-center items-center ">
 					Meet Our Doctors
 				</h1>
 				<DoctorCards />
@@ -30,7 +30,7 @@ export default function HomePage() {
 			<section
 				id="services"
 				className="px-10 pt-24 ">
-				<h1 className="text-5xl font-bold flex justify-center items-center ">
+				<h1 className="md:text-5xl font-bold flex justify-center items-center ">
 					Treatments We Provide:
 				</h1>
 				<TreatmentCards />
@@ -39,7 +39,7 @@ export default function HomePage() {
 			<section
 				id="gallery"
 				className="px-10 pt-24 ">
-				<h1 className="text-5xl font-bold flex justify-center items-center ">
+				<h1 className="md:text-5xl font-bold flex justify-center items-center ">
 					Our Gallery
 				</h1>
 				<GalleryCards />

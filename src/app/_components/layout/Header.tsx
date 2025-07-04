@@ -100,21 +100,21 @@ const Header = () => {
 			</div>
 
 			{/* Mobile Header */}
-			<div className="md:hidden bg-white border-b flex justify-between items-center py-2 px-4">
+			<div className="md:hidden bg-white border-b flex justify-between items-center py-4 px-4">
 				<Link href="/">
 					<Image
-						src="/logo.png"
+						src="/logo.jpg"
 						alt="Logo"
 						width={60}
 						height={60}
 					/>
 				</Link>
-				<button
-					onClick={() => setMobileNavOpen(true)}
-					className="text-gray-700">
-					<RxHamburgerMenu className="h-8 w-8" />
-					<span className="sr-only">Open navigation menu</span>
-				</button>
+
+				<Button className="px-4 py-6 bg-blue-custom text-white rounded">
+					<Link href="/book-appointment ">
+						<h1 className="text-xs">Get Appointment</h1>
+					</Link>
+				</Button>
 			</div>
 
 			{/* Mobile Navigation Backdrop */}

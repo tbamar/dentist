@@ -6,14 +6,12 @@ import { calendar_v3 as googleCalendar } from '@googleapis/calendar';
 import { parse, add, format, parseISO } from 'date-fns';
 import { fromZonedTime, toZonedTime } from 'date-fns-tz';
 
-// 1) Scopes + Calendar ID
 const SCOPES = [
 	'https://www.googleapis.com/auth/calendar',
 	'https://www.googleapis.com/auth/calendar.events',
 ];
 const calendarId = process.env.CALENDAR_ID!;
 
-// 2) Initialize the Google Calendar client
 const initGoogleCalendar = async () => {
 	const auth = new google.auth.GoogleAuth({
 		credentials: {
@@ -26,34 +24,72 @@ const initGoogleCalendar = async () => {
 	});
 	return google.calendar({ version: 'v3', auth });
 };
+// Chamber 1 slots
+const SunToFriMorning = ['11:00', '11:30', '12:00', '12:30', '13:00'];
+const MonToFriEvening = ['19:00', '19:30', '20:00', '20:30', '21:00'];
+//saturday closed
 
-// 3) Your IST slots, unchanged
-const availableSlots = [
-	'12:00',
-	'12:30',
-	'13:00',
-	'13:30',
-	'14:00',
-	'14:30',
-	'15:00',
-	'15:30',
-	'16:00',
-	'16:30',
-	'17:00',
-	'17:30',
-	'18:00',
-	'18:30',
-	'19:00',
-	'19:30',
-];
+// Chamber 2 slots
+const monAndWed = ['12:00', '12:30', '13:00', '13:30', '14:00', '14:30'];
+const fri = ['15:00', '15:30', '16:00', '16:30', '17:00'];
+const tueThuSat = ['17:30', '18:00', '18:30', '19:00', '19:30'];
+//sunday app basis only
+
+type Chamber = 1 | 2;
+type SlotType = 'morning' | 'evening'; // Only relevant for Chamber 1
 
 /**
  * Turn each "HH:mm IST" slot into the correct UTC Date for conflict checks.
  */
-export const buildDateSlots = async (date: Date): Promise<Date[]> => {
+export const buildDateSlots = async (
+	date: Date,
+	chamber: Chamber,
+	slotType?: string
+): Promise<Date[]> => {
 	const isoDay = format(date, 'yyyy-MM-dd'); // e.g. "2025-05-12"
+	const day = format(date, 'eee'); // e.g. "Sat"
+	// console.log('date recieved' + date);
+
+	console.log('day recieved' + day);
+
+	let availableSlots: string[] = [];
+
+	// console.log('chamber all details' + chamber); got that
+	// console.log(day);
+	if (chamber === 1) {
+		const isWeekday = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'].includes(day);
+		const isSun = day === 'Sun';
+		console.log('slot type in chamber 1', slotType);
+		if (slotType === 'morning' && (isWeekday || isSun)) {
+			availableSlots = SunToFriMorning;
+		} else if (slotType === 'evening' && isWeekday) {
+			availableSlots = MonToFriEvening;
+		} else {
+			availableSlots = []; // No slots on Saturday or invalid combination
+		}
+	} else if (chamber === 2) {
+		switch (day) {
+			case 'Mon':
+			case 'Wed':
+				availableSlots = monAndWed;
+				break;
+			case 'Fri':
+				availableSlots = fri;
+				break;
+			case 'Tue':
+			case 'Thu':
+			case 'Sat':
+				availableSlots = tueThuSat;
+				break;
+			case 'Sun':
+			default:
+				availableSlots = []; // appointment-based or closed
+				break;
+		}
+	}
+
+	console.log('availableSlots', availableSlots);
 	return availableSlots.map((slot) =>
-		// fromZonedTime assumes the string is in Asia/Kolkata
 		fromZonedTime(`${isoDay}T${slot}:00`, 'Asia/Kolkata')
 	);
 };
@@ -62,7 +98,11 @@ export const buildDateSlots = async (date: Date): Promise<Date[]> => {
  * Fetch busy events for the given IST day and return the free slots (as "HH:mm").
  * @param date  in 'yyyyMMdd' format, e.g. "20250512"
  */
-export const getAvailableSlots = async (date: string): Promise<string[]> => {
+export const getAvailableSlots = async (
+	date: string,
+	chamber: 1 | 2,
+	slotType?: 'morning' | 'evening' | string
+): Promise<string[]> => {
 	const calendar = await initGoogleCalendar();
 
 	// Build the UTC range that corresponds to the IST calendar day
@@ -84,7 +124,9 @@ export const getAvailableSlots = async (date: string): Promise<string[]> => {
 
 	// Compute all 30-min slot start times (in UTC)
 	const dayDate = parse(date, 'yyyyMMdd', new Date());
-	const allSlotsUtc = await buildDateSlots(dayDate);
+
+	const allSlotsUtc = await buildDateSlots(dayDate, chamber, slotType);
+	// console.log('slot type in chamber 1', slotType);
 
 	// Filter out slots that overlap existing events
 	const freeSlotsUtc = allSlotsUtc.filter((slotUtc) => {
@@ -118,7 +160,18 @@ export const createMeeting = async (
 	const calendar = await initGoogleCalendar();
 	const dateString = formData.get('selectedCalendarDate') as string; // now '2025-05-12'
 	const timeString = formData.get('timetable') as string; // e.g. '12:30'
-	const description = formData.get('message') as string;
+	const mesage = formData.get('message') as string;
+	const referredBy = formData.get('referredBy') as string;
+	const name = formData.get('name') as string;
+	const chamberRaw = formData.get('chamber');
+	const chamber = parseInt((formData.get('chamber') ?? '').toString()) as
+		| 1
+		| 2;
+	const location = chamber === 1 ? 'Chamber I' : 'Chamber II';
+	const description =
+		`• Message: ${mesage}\n` +
+		`• Referred By: ${referredBy}\n` +
+		`• Name: ${name}`;
 	const invitee = formData.get('email') as string;
 
 	if (!dateString || !timeString) {
@@ -133,8 +186,9 @@ export const createMeeting = async (
 
 	// Let Google schedule it in IST
 	const event: googleCalendar.Schema$Event = {
-		summary: `Call with ${invitee}`,
+		summary: `Meeting Scheduled with ${invitee}`,
 		description: description || undefined,
+		location: location,
 		start: {
 			dateTime: startDateTimeStr,
 			timeZone: 'Asia/Kolkata',
@@ -164,7 +218,7 @@ export const createMeeting = async (
 
 	const message =
 		resp.status === 200
-			? 'Meeting has been added to my calendar'
+			? "Meeting has been added to Doctor's calendar"
 			: `Failed to insert event (${resp.status})`;
 
 	revalidatePath('/');

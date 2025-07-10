@@ -1,40 +1,57 @@
 'use client';
 
-import { useState } from 'react';
+import { use, useEffect, useRef, useState } from 'react';
 import { useActionState } from 'react';
 import { createMeeting, getAvailableSlots } from '@/actions/meet-action';
 import { DayPicker } from 'react-day-picker';
 import { format } from 'date-fns';
 import 'react-day-picker/style.css';
 import { toast } from 'react-toastify';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import ChamberTabs from './ChamberTabs';
 
 export default function AppointmentForm() {
 	const [state, formMeetAction] = useActionState(createMeeting, {
 		message: '',
 	});
+
+	const formRef = useRef<HTMLFormElement | null>(null);
 	const [selected, setSelectedDate] = useState<Date>();
 	const [slots, setAvailableSlots] = useState<string[]>();
 	const [timetableError, setTimetableError] = useState<string>('');
 	const [isTimeTableLoading, setIsTimeTableLoading] = useState(false);
 	const [showMessage, setShowMessage] = useState(false);
+	const [selectedChamber, setSelectedChamber] = useState<{
+		chamber: 'chamber1' | 'chamber2';
+		timeSlot: 'morning' | 'evening' | string | null;
+	}>({ chamber: 'chamber1', timeSlot: 'morning' });
 
 	const handleDayPickerSelect = async (date: Date | undefined) => {
+		console.log('chamber1Time from first line', selectedChamber.timeSlot);
+		console.log('date on 3rd line :' + date);
 		setTimetableError('');
 		setShowMessage(false);
 		if (!date) {
 			setSelectedDate(undefined);
 			setAvailableSlots([]);
 		} else {
-			if (date.getDay() == 0 || date.getDay() == 6 || date < new Date()) {
+			if (date < new Date()) {
+				console.log('day is selected ', selected);
 				setSelectedDate(undefined);
 				setAvailableSlots([]);
+				return;
 			} else {
 				setSelectedDate(date);
+				console.log('day is weekend', date.getDay());
 				setIsTimeTableLoading(true);
 				try {
 					const availableSlots = await getAvailableSlots(
-						format(date, 'yyyyMMdd')
+						format(date, 'yyyyMMdd'),
+						selectedChamber.chamber === 'chamber1' ? 1 : 2,
+
+						selectedChamber.timeSlot ?? undefined
 					);
+					console.log('timeslot : ' + selectedChamber.timeSlot);
 					setAvailableSlots(availableSlots);
 				} catch (error) {
 					console.error(error);
@@ -50,6 +67,7 @@ export default function AppointmentForm() {
 
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
+		console.log('state', state);
 		const formData = new FormData(event.currentTarget);
 		if (
 			!formData.get('timetable') ||
@@ -57,7 +75,8 @@ export default function AppointmentForm() {
 		) {
 			setTimetableError('Please select a date and time slot');
 		}
-		await formMeetAction(formData);
+
+		formMeetAction(formData);
 
 		// Show toast notification after form submission
 		toast.success('Meeting has been scheduled successfully!', {
@@ -68,6 +87,15 @@ export default function AppointmentForm() {
 			pauseOnHover: true,
 			draggable: true,
 		});
+
+		// Reset form fields after successful submission
+		const form = event.currentTarget;
+		formRef.current?.reset();
+		setSelectedDate(undefined);
+		setAvailableSlots([]);
+		setTimetableError('');
+		setShowMessage(true);
+		setSelectedChamber({ chamber: 'chamber1', timeSlot: 'morning' });
 	};
 
 	const resetForm = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -82,6 +110,7 @@ export default function AppointmentForm() {
 	return (
 		<div className="md:flex items-center justify-center md:p-10">
 			<form
+				ref={formRef}
 				name="meeting-invitation-form"
 				className="flex flex-col gap-4"
 				onSubmit={handleSubmit}>
@@ -139,6 +168,11 @@ export default function AppointmentForm() {
 						className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 						placeholder="Referred By"
 					/>
+					{/* Chamber dropdown */}
+					<ChamberTabs
+						chamberHandle={handleDayPickerSelect}
+						onChamberSelect={(data) => setSelectedChamber(data)}
+					/>
 				</div>
 
 				<div className="flex flex-col sm:flex-row gap-4">
@@ -146,14 +180,21 @@ export default function AppointmentForm() {
 						mode="single"
 						required
 						selected={selected}
-						onSelect={handleDayPickerSelect}
+						onSelect={(date) => handleDayPickerSelect(date)}
 					/>
 					<input
 						id="selectedCalendarDate"
 						name="selectedCalendarDate"
 						type="hidden"
-						// ALWAYS 'yyyy-MM-dd', e.g. '2025-05-12'
 						value={selected ? format(selected, 'yyyy-MM-dd') : ''}
+					/>
+					<input
+						id="chamber"
+						name="chamber"
+						type="hidden"
+						value={
+							selectedChamber.chamber === 'chamber1' ? '1' : '2'
+						}
 					/>
 
 					<div className="sm:ms-7 sm:ps-5 sm:border-s border-gray-200 dark:border-gray-800 w-full sm:max-w-[15rem] mt-5 sm:mt-0">
@@ -214,7 +255,7 @@ export default function AppointmentForm() {
 													<label
 														htmlFor={slot}
 														className="inline-flex items-center justify-center w-full p-2 text-sm font-medium text-center bg-white border rounded-lg cursor-pointer text-blue-600 border-blue-600 dark:hover:text-white dark:border-blue-500 dark:peer-checked:border-blue-500 peer-checked:border-blue-600 peer-checked:bg-blue-600 hover:text-white peer-checked:text-white hover:bg-blue-500 dark:text-blue-500 dark:bg-gray-900 dark:hover:bg-blue-600 dark:hover:border-blue-600 dark:peer-checked:bg-blue-500">
-														{slot} PM IST
+														{slot}
 													</label>
 												</li>
 											))}
@@ -227,7 +268,7 @@ export default function AppointmentForm() {
 									</>
 								) : (
 									<div className="flex justify-center items-center h-32 w-full">
-										<p className="text-lg font-medium dark:text-white">
+										<p className="text-lg text-red-500 font-medium dark:text-white">
 											No Time Available
 										</p>
 									</div>

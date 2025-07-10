@@ -1,4 +1,3 @@
-// components/TreatmentCards.tsx
 import React from 'react';
 
 interface Detail {

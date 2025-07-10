@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { IoMdClose } from 'react-icons/io';
 import { Button } from '@/components/ui/button';
+import { FaChevronCircleRight } from 'react-icons/fa';
 
 interface Props {
 	handleLinkClick: () => void;
@@ -94,8 +95,9 @@ const Header = () => {
 					</Link>
 					{/* <Nav /> */}
 					<Link href="/book-appointment">
-						<Button className="px-10 py-6 cursor-pointer bg-blue-custom text-white rounded">
+						<Button className="px-10 py-6 cursor-pointer bg-blue-custom text-white rounded shadow-2xl hover:bg-blue-800">
 							Get Appointment
+							<FaChevronCircleRight />
 						</Button>
 					</Link>
 				</div>

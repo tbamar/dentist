@@ -8,6 +8,7 @@ import TreatmentCards from '../services/_components/ServiceCards';
 import ClinicOverview from './_components/ClinicOverview';
 import GalleryCards from './_components/GalleryCards';
 import ContactSection from './_components/ContactSection';
+import FaqAccordian from '../services/_components/FaqAccordian';
 export default function HomePage() {
 	return (
 		<main className="">
@@ -44,6 +45,14 @@ export default function HomePage() {
 					Our Gallery
 				</h1>
 				<GalleryCards />
+			</section>
+			<section
+				id="gallery"
+				className="md:px-10 md:pt-24 px-4 pt-14">
+				<h1 className="md:text-5xl text-3xl font-bold flex justify-center items-center ">
+					Frequently Asked Questions
+				</h1>
+				<FaqAccordian />
 			</section>
 			<section
 				id="contact"

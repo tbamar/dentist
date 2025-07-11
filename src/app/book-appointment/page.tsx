@@ -41,17 +41,24 @@ const page = () => {
 							Schedule your next appointment or any follow-up
 							treatments before leaving.
 						</li>
+						<li>Chamber I working days Sun-Fri</li>
+						<li>Chamber II working days Mon-Sat</li>
+						<li>Chamber I is closed on Saturdays</li>
+						<li>
+							chamber II <b>Sunday App Basis</b>
+						</li>
 					</ul>
 					<div className="">
 						<h2 className="text-xl font-bold  py-4">Contact Us</h2>
 						<ul className="flex flex-col gap-4 ">
 							<li>
-								29, Shreegopal Mullick Ln,
+								Please contact us at 32 Smile Dental Clinic,
 								<br />
-								Newland College Square, Kolkata, West Bengal
-								700012
+								For any queries or concerns, please feel free to
+								contact us at
 							</li>
-							<li> +917338436393</li>
+							<li> 7338436393</li>
+							<li>8585824145</li>
 							<li> 32smiledental2019@gmail.com</li>
 						</ul>
 					</div>

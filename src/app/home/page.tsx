@@ -18,13 +18,13 @@ export default function HomePage() {
 			<section
 				id="clinic-overview"
 				className="md:px-10 ">
-				<h1 className="md:text-5xl text-3xl font-bold flex justify-center items-center ">
+				<h1 className="md:text-5xl text-3xl font-bold flex justify-center items-center uppercase">
 					Clinic Overview
 				</h1>
 				<ClinicOverview />
 			</section>
 			<section className="md:px-10 md:pt-24 pt-14">
-				<h1 className="md:text-5xl text-3xl font-bold flex justify-center items-center ">
+				<h1 className="md:text-5xl text-3xl font-bold flex justify-center items-center uppercase">
 					Meet Our Doctors
 				</h1>
 				<DoctorCards />
@@ -32,7 +32,7 @@ export default function HomePage() {
 			<section
 				id="services"
 				className="md:px-10 md:pt-24 px-4 pt-12">
-				<h1 className="md:text-5xl text-3xl font-bold flex justify-center items-center ">
+				<h1 className="md:text-5xl text-3xl font-bold flex justify-center items-center uppercase ">
 					Treatments We Provide:
 				</h1>
 				<TreatmentCards />
@@ -41,7 +41,7 @@ export default function HomePage() {
 			<section
 				id="gallery"
 				className="md:px-10 md:pt-24 px-4 pt-14">
-				<h1 className="md:text-5xl text-3xl font-bold flex justify-center items-center ">
+				<h1 className="md:text-5xl text-3xl font-bold flex justify-center items-center uppercase ">
 					Our Gallery
 				</h1>
 				<GalleryCards />
@@ -49,7 +49,7 @@ export default function HomePage() {
 			<section
 				id="gallery"
 				className="md:px-10 md:pt-24 px-4 pt-14">
-				<h1 className="md:text-5xl text-3xl font-bold flex justify-center items-center ">
+				<h1 className="md:text-5xl text-3xl font-bold flex justify-center items-center uppercase">
 					Frequently Asked Questions
 				</h1>
 				<FaqAccordian />
@@ -57,7 +57,7 @@ export default function HomePage() {
 			<section
 				id="contact"
 				className="md:px-10 md:py-24 px-4 py-12">
-				<h1 className="md:text-5xl text-3xl pb-4 font-bold flex justify-center items-center ">
+				<h1 className="md:text-5xl text-3xl pb-4 font-bold flex justify-center items-center uppercase">
 					Contact Us
 				</h1>
 				<ContactSection />

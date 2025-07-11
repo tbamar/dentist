@@ -163,7 +163,7 @@ export const createMeeting = async (
 	const mesage = formData.get('message') as string;
 	const referredBy = formData.get('referredBy') as string;
 	const name = formData.get('name') as string;
-	const chamberRaw = formData.get('chamber');
+
 	const chamber = parseInt((formData.get('chamber') ?? '').toString()) as
 		| 1
 		| 2;

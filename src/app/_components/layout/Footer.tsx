@@ -36,7 +36,7 @@ const Footer = () => {
 					<h2 className="text-xl font-bold py-4">Quick Links</h2>
 					<ul
 						style={{ listStyleType: 'square' }}
-						className="flex flex-col gap-4 ">
+						className="flex flex-col gap-4 pl-2 md:pl-0">
 						{usefulLinks.map((link) => (
 							<li key={link.name}>
 								<Link
@@ -49,7 +49,7 @@ const Footer = () => {
 					</ul>
 				</div>
 				{/* Social Links */}
-				<div className="bg-blue-950 md:p-10 order-3 ">
+				<div className="bg-blue-950 p-10 order-3 ">
 					<h2 className="text-xl font-bold  py-4">Social Links</h2>
 					Visit 32 Smile on these social links and connect with us.
 					Make sure to follow our accounts for regular updates.
@@ -60,19 +60,13 @@ const Footer = () => {
 						<li> Linkedin</li>
 					</ul>
 				</div>
-				{/* Services */}
-				{/* <div className="bg-blue-900 p-10">
-					<h2 className="text-xl font-bold ">Services</h2>
-					<ul
-						style={{ listStyleType: 'square' }}
-						className="flex flex-col gap-4  relative">
-						<li> Service 1</li>
-						<li> Service 2</li>
-						<li> Service 3</li>
-						<li>Service 4</li>
-					</ul>
-				</div> */}
 			</footer>
+			<div className="w-full flex justify-center  text-white pb-6 pt-6 md:pt-0">
+				<p>
+					&copy; {new Date().getFullYear()} 32 Smile Dental Clinic.
+					All rights reserved.
+				</p>
+			</div>
 		</div>
 	);
 };

@@ -54,24 +54,54 @@ const FaqAccordian = () => {
 
 	return (
 		<div>
-			<Accordion
-				type="single"
-				collapsible
-				className="w-full  grid grid-cols-2 gap-10 pt-4">
-				{faqItems.map((item) => (
-					<AccordionItem
-						className="border-gray-500 bg-blue-custom text-white p-3 rounded-xl px-6"
-						key={item.id}
-						value={item.id}>
-						<AccordionTrigger className="font-semibold">
-							{item.title}
-						</AccordionTrigger>
-						<AccordionContent>
-							<p className="text-gray-200">{item.content}</p>
-						</AccordionContent>
-					</AccordionItem>
-				))}
-			</Accordion>
+			<div>
+				<div className="flex flex-col md:flex-row gap-6 pt-4">
+					<Accordion
+						type="single"
+						collapsible
+						className="w-full md:w-1/2 flex flex-col gap-6" // Each Accordion takes half width on md and up
+					>
+						{faqItems.slice(0, 3).map((item) => (
+							<AccordionItem
+								className="border border-gray-500 bg-blue-custom text-white p-3 rounded-xl px-6 shadow-md"
+								key={item.id}
+								value={item.id}>
+								<AccordionTrigger className="font-semibold text-lg text-white hover:no-underline data-[state=open]:text-blue-200">
+									{item.title}
+								</AccordionTrigger>
+								<AccordionContent>
+									<p className="text-blue-100 mt-2">
+										{item.content}
+									</p>
+								</AccordionContent>
+							</AccordionItem>
+						))}
+					</Accordion>
+
+					{/* Second Column for Accordion Items (3-5) */}
+					<Accordion
+						type="single"
+						collapsible
+						className="w-full  md:w-1/2  flex flex-col gap-6 mt-6 md:mt-0" // Add top margin for mobile, reset for desktop
+					>
+						{faqItems.slice(3, 6).map((item) => (
+							<AccordionItem
+								className="border border-gray-500 bg-blue-custom text-white p-3 rounded-xl px-6 shadow-md"
+								key={item.id}
+								value={item.id}>
+								<AccordionTrigger className="font-semibold text-lg text-white hover:no-underline data-[state=open]:text-blue-200">
+									{item.title}
+								</AccordionTrigger>
+								<AccordionContent>
+									<p className="text-blue-100 mt-2">
+										{item.content}
+									</p>
+								</AccordionContent>
+							</AccordionItem>
+						))}
+					</Accordion>
+				</div>
+			</div>
 		</div>
 	);
 };

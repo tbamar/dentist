@@ -4,17 +4,18 @@ import { use, useEffect, useRef, useState } from 'react';
 import { useActionState } from 'react';
 import { createMeeting, getAvailableSlots } from '@/actions/meet-action';
 import { DayPicker } from 'react-day-picker';
-import { format } from 'date-fns';
+import { format, set } from 'date-fns';
 import 'react-day-picker/style.css';
 import { toast } from 'react-toastify';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import ChamberTabs from './ChamberTabs';
+import { http } from '@/httpClient/httpClient';
 
 export default function AppointmentForm() {
 	const [state, formMeetAction] = useActionState(createMeeting, {
 		message: '',
 	});
-
+	const [mailData, setMailData] = useState<any>({});
 	const formRef = useRef<HTMLFormElement | null>(null);
 	const [selected, setSelectedDate] = useState<Date>();
 	const [slots, setAvailableSlots] = useState<string[]>();
@@ -75,11 +76,39 @@ export default function AppointmentForm() {
 		) {
 			setTimetableError('Please select a date and time slot');
 		}
-
+		// form content
+		const name = formData.get('name') as string;
+		const email = formData.get('email') as string;
+		const phone = formData.get('contactNo') as string;
+		const message = formData.get('message') as string;
+		const referredBy = formData.get('referredBy') as string;
+		const date = formData.get('selectedCalendarDate') as string;
+		const timeSlot = formData.get('timetable') as string;
+		const chamber = parseInt((formData.get('chamber') ?? '').toString()) as
+			| 1
+			| 2;
+		const location = chamber === 1 ? 'Chamber I' : 'Chamber II';
+		setMailData({
+			name,
+			email,
+			phone,
+			message,
+			referredBy,
+			date,
+			location,
+			timeSlot,
+		});
 		formMeetAction(formData);
 
+		await http.post('/patient', mailData, {
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		});
+		// end form content
+
 		// Show toast notification after form submission
-		toast.success('Meeting has been scheduled successfully!', {
+		toast.success('Reservation confirmed and email sent successfully!!', {
 			position: 'top-right',
 			autoClose: 5000,
 			hideProgressBar: false,
@@ -290,13 +319,13 @@ export default function AppointmentForm() {
 					<button
 						type="submit"
 						aria-label="Submit"
-						className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full md:w-1/4 px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 disabled:opacity-50">
+						className="text-white bg-blue-700 cursor-pointer hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full md:w-1/4 px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 disabled:opacity-50">
 						Submit
 					</button>
 					<button
 						type="button"
 						aria-label="Reset"
-						className="w-full md:w-1/4 px-5 py-2.5 font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+						className="w-full md:w-1/4 px-5 py-2.5 cursor-pointer font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
 						onClick={resetForm}>
 						Reset
 					</button>

@@ -49,15 +49,31 @@ const Footer = () => {
 					</ul>
 				</div>
 				{/* Social Links */}
+				{/* Social Links */}
 				<div className="bg-blue-950 p-10 order-3 ">
 					<h2 className="text-xl font-bold  py-4">Social Links</h2>
 					Visit 32 Smile on these social links and connect with us.
 					Make sure to follow our accounts for regular updates.
 					<ul className="flex gap-4 ">
-						<li> Facebook</li>
-						<li> Twitter</li>
-						<li> Instagram</li>
-						<li> Linkedin</li>
+						<li className="flex gap-2">
+							<Link
+								href={
+									'https://www.facebook.com/share/1BP63hNhP2/'
+								}
+								target="_blank">
+								Dr. Torsha
+							</Link>
+						</li>
+						<li>
+							{' '}
+							<Link
+								href={
+									'https://www.facebook.com/share/1AkAkgVfqj/'
+								}
+								target="_blank">
+								Dr. Saibal
+							</Link>
+						</li>
 					</ul>
 				</div>
 			</footer>

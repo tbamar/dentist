@@ -30,7 +30,7 @@ const doctors: Doctor[] = [
 
 	{
 		name: 'Dr. Saibal Bhattacharyya',
-		imageUrl: '/images/profile/saibal.jpg',
+		imageUrl: '/images/profile/saibal.png',
 		qualifications:
 			'BDS, MS Ramaiah Dental College, Bangalore; MDS in Oral & Maxillofacial Surgery, Awadh Dental College & Hospital, Jamshedpur',
 		training: [

@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 export interface ChamberTabsProps {
 	onChamberSelect: (data: {
 		chamber: 'chamber1' | 'chamber2';
-		timeSlot: 'morning' | 'evening' | null;
+		timeSlot: 'morning' | 'evening' | 'afternoon' | null;
 	}) => void;
 	chamberHandle: (date: Date | undefined) => void;
 	selected?: Date | undefined;
@@ -20,6 +20,9 @@ const ChamberTabs: React.FC<ChamberTabsProps> = ({
 	);
 	const [chamber1Time, setChamber1Time] = useState<'morning' | 'evening'>(
 		'morning'
+	);
+	const [chamber2Time, setChamber2Time] = useState<'afternoon' | 'evening'>(
+		'afternoon'
 	);
 
 	const chamberData = {
@@ -39,10 +42,15 @@ const ChamberTabs: React.FC<ChamberTabsProps> = ({
 		console.log('chamber1Time before select', chamber1Time);
 		onChamberSelect({
 			chamber: activeTab,
-			timeSlot: activeTab === 'chamber1' ? chamber1Time : null,
+			timeSlot: activeTab === 'chamber1' ? chamber1Time : chamber2Time,
 		});
-		console.log('chamber1Time after select', chamber1Time);
-	}, [activeTab, chamber1Time]);
+		console.log(
+			'chamber1Time after select',
+			chamber1Time,
+			'chamber2Time',
+			chamber2Time
+		);
+	}, [activeTab, chamber1Time, chamber2Time]);
 
 	return (
 		<div className="w-full">
@@ -116,9 +124,29 @@ const ChamberTabs: React.FC<ChamberTabsProps> = ({
 				)}
 
 				{activeTab === 'chamber2' && (
-					<p className="text-sm text-gray-600 mt-2">
-						This chamber doesn't have time slot selection.
-					</p>
+					<div className="mt-3">
+						<label className="block text-sm font-medium mb-1">
+							Select Time Slot:
+						</label>
+						<select
+							defaultValue={'select time'}
+							onChange={(e) => {
+								const value = e.target.value as
+									| 'afternoon'
+									| 'evening';
+								setChamber2Time(value);
+								console.log(
+									'chamber2Time from chamber select',
+									value
+								);
+								chamberHandle(selected);
+							}}
+							className="w-full border rounded p-2">
+							<option value="select time">Select Time</option>
+							<option value="afternoon">Afternoon</option>
+							<option value="evening">Evening</option>
+						</select>
+					</div>
 				)}
 			</div>
 		</div>

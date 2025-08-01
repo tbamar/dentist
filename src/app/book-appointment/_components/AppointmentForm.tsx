@@ -1,7 +1,7 @@
 'use client';
 
 import { use, useEffect, useRef, useState } from 'react';
-import { useActionState } from 'react';
+
 import { createMeeting, getAvailableSlots } from '@/actions/meet-action';
 import { DayPicker } from 'react-day-picker';
 import { format, set } from 'date-fns';
@@ -10,12 +10,14 @@ import { toast } from 'react-toastify';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import ChamberTabs from './ChamberTabs';
 import { http } from '@/httpClient/httpClient';
+import { SearchModal } from './DialogBox';
+import { Button } from '@/components/ui/button';
 
 export default function AppointmentForm() {
-	const [state, formMeetAction] = useActionState(createMeeting, {
-		message: '',
-	});
-	const [mailData, setMailData] = useState<any>({});
+	// const [state, formMeetAction] = useActionState(createMeeting, {
+	// 	message: '',
+	// });
+
 	const formRef = useRef<HTMLFormElement | null>(null);
 	const [selected, setSelectedDate] = useState<Date>();
 	const [slots, setAvailableSlots] = useState<string[]>();
@@ -28,9 +30,26 @@ export default function AppointmentForm() {
 	}>({ chamber: 'chamber1', timeSlot: 'morning' });
 
 	const handleDayPickerSelect = async (date: Date | undefined) => {
-		console.log('chamber1Time from first line', selectedChamber.timeSlot);
-		console.log('date on 3rd line :' + date);
+		console.log(selectedChamber);
+		// console.log('date on 3rd line :' + date);
+		// console.log('day of week', date?.getDay());
+		const dayOfWeek = date?.getDay();
+		// console.log('dayOfWeek', dayOfWeek);
 		setTimetableError('');
+
+		const isAfternoon: Boolean =
+			dayOfWeek === 1 || dayOfWeek === 3 ? true : false;
+		console.log('isAfternoon', isAfternoon);
+
+		const isEvening: Boolean =
+			dayOfWeek === 2 ||
+			dayOfWeek === 4 ||
+			dayOfWeek === 5 ||
+			dayOfWeek === 6
+				? true
+				: false;
+		console.log('isEvening', isEvening);
+
 		setShowMessage(false);
 		if (!date) {
 			setSelectedDate(undefined);
@@ -45,15 +64,36 @@ export default function AppointmentForm() {
 				setSelectedDate(date);
 				console.log('day is weekend', date.getDay());
 				setIsTimeTableLoading(true);
+
 				try {
 					const availableSlots = await getAvailableSlots(
 						format(date, 'yyyyMMdd'),
 						selectedChamber.chamber === 'chamber1' ? 1 : 2,
-
 						selectedChamber.timeSlot ?? undefined
 					);
-					console.log('timeslot : ' + selectedChamber.timeSlot);
-					setAvailableSlots(availableSlots);
+					if (selectedChamber.chamber === 'chamber1') {
+						setAvailableSlots(availableSlots);
+					} else if (
+						selectedChamber.chamber === 'chamber2' &&
+						isAfternoon &&
+						selectedChamber.timeSlot === 'afternoon'
+					) {
+						setAvailableSlots(availableSlots);
+						return;
+					} else if (
+						selectedChamber.chamber === 'chamber2' &&
+						isEvening &&
+						selectedChamber.timeSlot === 'evening'
+					) {
+						setAvailableSlots(availableSlots);
+						return;
+					} else {
+						setAvailableSlots([]);
+						return;
+					}
+
+					// console.log('all available slots', availableSlots);
+					// console.log('timeslot : ' + selectedChamber.timeSlot);
 				} catch (error) {
 					console.error(error);
 					setTimetableError(
@@ -65,66 +105,140 @@ export default function AppointmentForm() {
 			}
 		}
 	};
+	const [waitingListCount, setWaitingListCount] = useState(0);
+	const timeTableCta = async () => {
+		//FIXME button handler
+		// console.log('🟢 timeTableCta called 🟢 ');
 
-	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-		event.preventDefault();
-		console.log('state', state);
-		const formData = new FormData(event.currentTarget);
-		if (
-			!formData.get('timetable') ||
-			!formData.get('selectedCalendarDate')
-		) {
-			setTimetableError('Please select a date and time slot');
-		}
-		// form content
-		const name = formData.get('name') as string;
-		const email = formData.get('email') as string;
-		const phone = formData.get('contactNo') as string;
-		const message = formData.get('message') as string;
-		const referredBy = formData.get('referredBy') as string;
-		const date = formData.get('selectedCalendarDate') as string;
-		const timeSlot = formData.get('timetable') as string;
-		const chamber = parseInt((formData.get('chamber') ?? '').toString()) as
+		const timeInput = document.querySelector(
+			'input[name="timetable"]:checked'
+		) as HTMLInputElement;
+		const chamberInput = document.querySelector(
+			'input[name="chamber"]'
+		) as HTMLInputElement;
+		const dateInput = document.querySelector(
+			'input[name="selectedCalendarDate"]'
+		) as HTMLInputElement;
+
+		const time = timeInput?.value || '';
+		const location = parseInt((chamberInput?.value ?? '').toString()) as
 			| 1
 			| 2;
-		const location = chamber === 1 ? 'Chamber I' : 'Chamber II';
-		setMailData({
-			name,
-			email,
-			phone,
-			message,
-			referredBy,
+		const chamber =
+			location === 1
+				? '29, Shreegopal Mullick Ln, Newland, College Square,'
+				: 'LOHARUKA GREEN LEAF, 3, VIP Rd,';
+		const date = dateInput?.value || '';
+
+		if (!time || !chamber || !date) {
+			toast.error('Please Select Chamber, Date and Time First');
+			return;
+		}
+
+		const countData = {
 			date,
-			location,
-			timeSlot,
-		});
-		formMeetAction(formData);
+			chamber,
+			time,
+		};
+		console.log('here is contData', countData);
 
-		await http.post('/patient', mailData, {
-			headers: {
-				'Content-Type': 'application/json',
-			},
-		});
-		// end form content
+		try {
+			console.log('🟢 timeTableCta called 🟢 ');
+			// console.log('http', http);
+			const res = await http.post('/waitinglist/count', countData);
+			console.log('here is res', res.data.count);
+			setWaitingListCount(res.data.count);
+		} catch (error) {
+			console.error('❌ Error calling /waitinglist/count:', error);
+		}
+	};
 
-		// Show toast notification after form submission
-		toast.success('Reservation confirmed and email sent successfully!!', {
-			position: 'top-right',
-			autoClose: 5000,
-			hideProgressBar: false,
-			closeOnClick: true,
-			pauseOnHover: true,
-			draggable: true,
-		});
+	const [modalOpen, setModalOpen] = useState(false);
+	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+		try {
+			event.preventDefault();
 
-		// Reset form fields after successful submission
-		const form = event.currentTarget;
-		formRef.current?.reset();
-		setSelectedDate(undefined);
-		setAvailableSlots([]);
-		setTimetableError('');
-		setShowMessage(true);
-		setSelectedChamber({ chamber: 'chamber1', timeSlot: 'morning' });
+			const formData = new FormData(event.currentTarget);
+			if (
+				!formData.get('name') ||
+				!formData.get('email') ||
+				!formData.get('contactNo') ||
+				!formData.get('address') ||
+				!formData.get('referredBy') ||
+				!formData.get('selectedCalendarDate') ||
+				!formData.get('timetable')
+			) {
+				toast.error('Please fill in all required fields');
+				return;
+			}
+			// if (
+			// 	!formData.get('timetable') ||
+			// 	!formData.get('selectedCalendarDate')
+			// ) {
+			// 	setTimetableError('Please select a date and time slot');
+			// }
+			// formMeetAction(formData);
+			// form content
+			const name = formData.get('name') as string;
+			const email = formData.get('email') as string;
+			const phone = formData.get('contactNo') as string;
+			const address = formData.get('address') as string;
+			const referredBy = formData.get('referredBy') as string;
+			const date = formData.get('selectedCalendarDate') as string;
+			const time = formData.get('timetable') as string;
+			const location = parseInt(
+				(formData.get('chamber') ?? '').toString()
+			) as 1 | 2;
+			const chamber =
+				location === 1
+					? '29, Shreegopal Mullick Ln, Newland, College Square,'
+					: 'LOHARUKA GREEN LEAF, 3, VIP Rd,';
+			const mailData = {
+				name,
+				email,
+				phone,
+				address,
+				chamber,
+				referredBy,
+				date,
+				time,
+			};
+			console.log('💻 maildata', mailData);
+
+			// TODO: booking endpoint
+			const res = await http.post('/bookings', mailData, {
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			});
+			console.log('💻here is res', res.data);
+
+			// end form content
+
+			// Show toast notification after form submission
+
+			if (res.data.message === 'Booking confirmed') {
+				toast.success(
+					'Reservation confirmed and email sent successfully!!'
+				);
+			}
+			if (res.data.message === 'Added to waiting list') {
+				toast.success('Added to waiting list ' + res.data.position);
+			}
+
+			// Reset form fields after successful submission
+			// const form = event.currentTarget;
+			formRef.current?.reset();
+			setWaitingListCount(0);
+			setSelectedDate(undefined);
+			setAvailableSlots([]);
+			setTimetableError('');
+			setShowMessage(true);
+			setSelectedChamber({ chamber: 'chamber1', timeSlot: 'morning' });
+		} catch (error: any) {
+			console.log(error.response.data.message);
+			toast.error('Something went wrong!');
+		}
 	};
 
 	const resetForm = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -132,6 +246,7 @@ export default function AppointmentForm() {
 		const form = event.currentTarget.form;
 		if (form) {
 			form.reset();
+			setWaitingListCount(0);
 			setSelectedDate(undefined);
 		}
 	};
@@ -146,11 +261,7 @@ export default function AppointmentForm() {
 				<h2 className="text-xl text-gray-900 dark:text-white font-bold mb-2">
 					Let&apos;s Talk
 				</h2>
-				{showMessage && state.message && (
-					<p className="text-green-500 text-md mt-2">
-						{state.message}
-					</p>
-				)}
+				{/* */}
 
 				<div className="flex flex-col gap-2">
 					{/* New fields for name, contact, and address */}
@@ -266,7 +377,7 @@ export default function AppointmentForm() {
 									<>
 										<ul
 											id="timetable"
-											className="grid w-full grid-cols-2 gap-2 mt-5">
+											className="grid w-full grid-cols-2 gap-2 pt-5">
 											{slots.map((slot) => (
 												<li key={slot}>
 													<input
@@ -304,6 +415,20 @@ export default function AppointmentForm() {
 								)}
 							</>
 						)}
+						{/* TODO button */}
+						<div className="pt-6 flex-col flex gap-4">
+							<button
+								type="button"
+								className="text-white w-fit bg-blue-700 cursor-pointer hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm   px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 disabled:opacity-50"
+								onClick={() => {
+									timeTableCta();
+								}}>
+								Check Status
+							</button>
+							<h1 className=" font-semibold w-fit  text-white  bg-cyan-600 px-4 py-2 rounded shadow-md inline-block">
+								Waiting List: {waitingListCount}
+							</h1>
+						</div>
 					</div>
 				</div>
 				<div className="flex flex-col gap-2">
@@ -315,20 +440,32 @@ export default function AppointmentForm() {
 						className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 						placeholder="Please Provide Topics For the Discussion..."></textarea>
 				</div>
-				<div className="flex flex-col gap-2 items-end">
-					<button
-						type="submit"
-						aria-label="Submit"
-						className="text-white bg-blue-700 cursor-pointer hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full md:w-1/4 px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 disabled:opacity-50">
-						Submit
-					</button>
-					<button
+				<div className="flex justify-between  items-center w-full">
+					<Button
+						className="bg-red-500 p-3 h-full"
 						type="button"
-						aria-label="Reset"
-						className="w-full md:w-1/4 px-5 py-2.5 cursor-pointer font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-						onClick={resetForm}>
-						Reset
-					</button>
+						onClick={() => setModalOpen(true)}>
+						Cancel Appointment
+					</Button>
+					<SearchModal
+						open={modalOpen}
+						setOpen={setModalOpen}
+					/>
+					<div className="flex  gap-2 items-center">
+						<button
+							type="button"
+							aria-label="Reset"
+							className="w-full  p-3 cursor-pointer font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+							onClick={resetForm}>
+							Reset
+						</button>
+						<button
+							type="submit"
+							aria-label="Submit"
+							className="text-white p-3 bg-blue-700 cursor-pointer hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full   text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 disabled:opacity-50">
+							Submit
+						</button>
+					</div>
 				</div>
 			</form>
 		</div>

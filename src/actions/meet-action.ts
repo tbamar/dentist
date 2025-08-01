@@ -30,13 +30,22 @@ const MonToFriEvening = ['19:00', '19:30', '20:00', '20:30', '21:00'];
 //saturday closed
 
 // Chamber 2 slots
-const monAndWed = ['12:00', '12:30', '13:00', '13:30', '14:00', '14:30'];
-const fri = ['15:00', '15:30', '16:00', '16:30', '17:00'];
-const tueThuSat = ['17:30', '18:00', '18:30', '19:00', '19:30'];
+// const monAndWed = ['12:00', '12:30', '13:00', '13:30', '14:00', '14:30'];
+// const fri = ['15:00', '15:30', '16:00', '16:30', '17:00'];
+// const tueThuSat = ['17:30', '18:00', '18:30', '19:00', '19:30'];
+const monAndWedAfternoon = [
+	'12:00',
+	'12:30',
+	'13:00',
+	'13:30',
+	'14:00',
+	'14:30',
+];
+const tueThufriSatEvening = ['17:30', '18:00', '18:30', '19:00', '19:30'];
 //sunday app basis only
 
 type Chamber = 1 | 2;
-type SlotType = 'morning' | 'evening'; // Only relevant for Chamber 1
+type SlotType = 'morning' | 'evening' | 'afternoon'; // Only relevant for Chamber 1
 
 /**
  * Turn each "HH:mm IST" slot into the correct UTC Date for conflict checks.
@@ -68,18 +77,22 @@ export const buildDateSlots = async (
 			availableSlots = []; // No slots on Saturday or invalid combination
 		}
 	} else if (chamber === 2) {
+		const isAfternoon = ['Mon', 'Wed'].includes(day);
+		const isEvening = ['Tue', 'Thu', 'Fri', 'Sat'].includes(day);
+		const isSun = day === 'Sun';
+
 		switch (day) {
 			case 'Mon':
 			case 'Wed':
-				availableSlots = monAndWed;
+				availableSlots = isAfternoon ? monAndWedAfternoon : [];
 				break;
 			case 'Fri':
-				availableSlots = fri;
+				availableSlots = isEvening ? tueThufriSatEvening : [];
 				break;
 			case 'Tue':
 			case 'Thu':
 			case 'Sat':
-				availableSlots = tueThuSat;
+				availableSlots = isEvening ? tueThufriSatEvening : [];
 				break;
 			case 'Sun':
 			default:
@@ -120,23 +133,25 @@ export const getAvailableSlots = async (
 		timeMin: dayStartUtc.toISOString(),
 		timeMax: dayEndUtc.toISOString(),
 	});
+	console.log('calendar response', resp?.data?.items); //fetched events from calendar
 	const events = resp.data.items || [];
 
 	// Compute all 30-min slot start times (in UTC)
 	const dayDate = parse(date, 'yyyyMMdd', new Date());
 
 	const allSlotsUtc = await buildDateSlots(dayDate, chamber, slotType);
-	// console.log('slot type in chamber 1', slotType);
+	console.log(allSlotsUtc);
 
 	// Filter out slots that overlap existing events
-	const freeSlotsUtc = allSlotsUtc.filter((slotUtc) => {
-		const slotEndUtc = add(slotUtc, { minutes: 30 });
-		return !events.some((evt: googleCalendar.Schema$Event) => {
-			const evtStart = new Date(evt.start?.dateTime || '');
-			const evtEnd = new Date(evt.end?.dateTime || '');
-			return slotUtc < evtEnd && slotEndUtc > evtStart;
-		});
-	});
+	// const freeSlotsUtc = allSlotsUtc.filter((slotUtc) => {
+	// 	const slotEndUtc = add(slotUtc, { minutes: 30 });
+	// 	return !events.some((evt: googleCalendar.Schema$Event) => {
+	// 		const evtStart = new Date(evt.start?.dateTime || '');
+	// 		const evtEnd = new Date(evt.end?.dateTime || '');
+	// 		return slotUtc < evtEnd && slotEndUtc > evtStart;
+	// 	});
+	// });
+	const freeSlotsUtc = allSlotsUtc; // Keep all slots, no filtering
 
 	// Convert each free UTC slot back into IST for display
 	return freeSlotsUtc.map((slotUtc) => {

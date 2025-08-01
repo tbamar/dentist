@@ -6,7 +6,7 @@ const page = () => {
 	return (
 		<div className="pt-20">
 			<Banner name="Book Appointment" />
-			<section className="w-full grid md:grid-cols-2 px-6  md:px-20 pt-14">
+			<section className="w-full grid md:grid-cols-2 px-6 pb-12  md:px-20 pt-14">
 				<div
 					className="flex flex-col text-start  justify-start
 				items-start gap-4  p-4">

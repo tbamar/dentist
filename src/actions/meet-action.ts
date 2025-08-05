@@ -111,54 +111,73 @@ export const buildDateSlots = async (
  * Fetch busy events for the given IST day and return the free slots (as "HH:mm").
  * @param date  in 'yyyyMMdd' format, e.g. "20250512"
  */
+
 export const getAvailableSlots = async (
-	date: string,
-	chamber: 1 | 2,
-	slotType?: 'morning' | 'evening' | string
+  date: string,
+  chamber: 1 | 2,
+  slotType?: 'morning' | 'evening' | string
 ): Promise<string[]> => {
-	const calendar = await initGoogleCalendar();
+  // Parse 'yyyyMMdd' date string
+  const dayDate = parse(date, 'yyyyMMdd', new Date());
 
-	// Build the UTC range that corresponds to the IST calendar day
-	const isoDay = `${date.slice(0, 4)}-${date.slice(4, 6)}-${date.slice(
-		6,
-		8
-	)}`; // "2025-05-12"
-	const dayStartUtc = fromZonedTime(`${isoDay}T00:00:00`, 'Asia/Kolkata');
-	const dayEndUtc = add(dayStartUtc, { days: 1 });
+  // Get all slots based on chamber/day/slotType arrays (no API call)
+  const allSlotsUtc = await buildDateSlots(dayDate, chamber, slotType);
 
-	const resp = await calendar.events.list({
-		calendarId,
-		singleEvents: true,
-		orderBy: 'startTime',
-		timeMin: dayStartUtc.toISOString(),
-		timeMax: dayEndUtc.toISOString(),
-	});
-	console.log('calendar response', resp?.data?.items); //fetched events from calendar
-	const events = resp.data.items || [];
-
-	// Compute all 30-min slot start times (in UTC)
-	const dayDate = parse(date, 'yyyyMMdd', new Date());
-
-	const allSlotsUtc = await buildDateSlots(dayDate, chamber, slotType);
-	console.log(allSlotsUtc);
-
-	// Filter out slots that overlap existing events
-	// const freeSlotsUtc = allSlotsUtc.filter((slotUtc) => {
-	// 	const slotEndUtc = add(slotUtc, { minutes: 30 });
-	// 	return !events.some((evt: googleCalendar.Schema$Event) => {
-	// 		const evtStart = new Date(evt.start?.dateTime || '');
-	// 		const evtEnd = new Date(evt.end?.dateTime || '');
-	// 		return slotUtc < evtEnd && slotEndUtc > evtStart;
-	// 	});
-	// });
-	const freeSlotsUtc = allSlotsUtc; // Keep all slots, no filtering
-
-	// Convert each free UTC slot back into IST for display
-	return freeSlotsUtc.map((slotUtc) => {
-		const slotIst = toZonedTime(slotUtc, 'Asia/Kolkata');
-		return format(slotIst, 'HH:mm');
-	});
+  // Return slots formatted in IST 'HH:mm' for UI
+  return allSlotsUtc.map((slotUtc) => {
+    const slotIst = toZonedTime(slotUtc, 'Asia/Kolkata');
+    return format(slotIst, 'HH:mm');
+  });
 };
+// with googleapi
+// export const getAvailableSlots = async (
+// 	date: string,
+// 	chamber: 1 | 2,
+// 	slotType?: 'morning' | 'evening' | string
+// ): Promise<string[]> => {
+// 	const calendar = await initGoogleCalendar();
+
+// 	// Build the UTC range that corresponds to the IST calendar day
+// 	const isoDay = `${date.slice(0, 4)}-${date.slice(4, 6)}-${date.slice(
+// 		6,
+// 		8
+// 	)}`; // "2025-05-12"
+// 	const dayStartUtc = fromZonedTime(`${isoDay}T00:00:00`, 'Asia/Kolkata');
+// 	const dayEndUtc = add(dayStartUtc, { days: 1 });
+
+// 	const resp = await calendar.events.list({
+// 		calendarId,
+// 		singleEvents: true,
+// 		orderBy: 'startTime',
+// 		timeMin: dayStartUtc.toISOString(),
+// 		timeMax: dayEndUtc.toISOString(),
+// 	});
+// 	console.log('calendar response', resp?.data?.items); //fetched events from calendar
+// 	const events = resp.data.items || [];
+
+// 	// Compute all 30-min slot start times (in UTC)
+// 	const dayDate = parse(date, 'yyyyMMdd', new Date());
+
+// 	const allSlotsUtc = await buildDateSlots(dayDate, chamber, slotType);
+// 	console.log(allSlotsUtc);
+
+// 	// Filter out slots that overlap existing events
+// 	// const freeSlotsUtc = allSlotsUtc.filter((slotUtc) => {
+// 	// 	const slotEndUtc = add(slotUtc, { minutes: 30 });
+// 	// 	return !events.some((evt: googleCalendar.Schema$Event) => {
+// 	// 		const evtStart = new Date(evt.start?.dateTime || '');
+// 	// 		const evtEnd = new Date(evt.end?.dateTime || '');
+// 	// 		return slotUtc < evtEnd && slotEndUtc > evtStart;
+// 	// 	});
+// 	// });
+// 	const freeSlotsUtc = allSlotsUtc; // Keep all slots, no filtering
+
+// 	// Convert each free UTC slot back into IST for display
+// 	return freeSlotsUtc.map((slotUtc) => {
+// 		const slotIst = toZonedTime(slotUtc, 'Asia/Kolkata');
+// 		return format(slotIst, 'HH:mm');
+// 	});
+// };
 
 /**
  * Create the event at the picked IST time by handing Google a local ISO string + timeZone.

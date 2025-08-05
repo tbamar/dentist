@@ -2,7 +2,7 @@
 
 import { use, useEffect, useRef, useState } from 'react';
 
-import { createMeeting, getAvailableSlots } from '@/actions/meet-action';
+import { getAvailableSlots, type SlotType } from '@/actions/meet-action';
 import { DayPicker } from 'react-day-picker';
 import { format, set } from 'date-fns';
 import 'react-day-picker/style.css';
@@ -14,23 +14,21 @@ import { SearchModal } from './DialogBox';
 import { Button } from '@/components/ui/button';
 
 export default function AppointmentForm() {
-	// const [state, formMeetAction] = useActionState(createMeeting, {
-	// 	message: '',
-	// });
-
 	const formRef = useRef<HTMLFormElement | null>(null);
 	const [selected, setSelectedDate] = useState<Date>();
 	const [slots, setAvailableSlots] = useState<string[]>();
 	const [timetableError, setTimetableError] = useState<string>('');
 	const [isTimeTableLoading, setIsTimeTableLoading] = useState(false);
 	const [showMessage, setShowMessage] = useState(false);
+	const [waitingListCount, setWaitingListCount] = useState(0);
+	const [modalOpen, setModalOpen] = useState(false);
 	const [selectedChamber, setSelectedChamber] = useState<{
 		chamber: 'chamber1' | 'chamber2';
-		timeSlot: 'morning' | 'evening' | string | null;
+		timeSlot: SlotType;
 	}>({ chamber: 'chamber1', timeSlot: 'morning' });
 
 	const handleDayPickerSelect = async (date: Date | undefined) => {
-		console.log(selectedChamber);
+		// console.log(selectedChamber);
 		// console.log('date on 3rd line :' + date);
 		// console.log('day of week', date?.getDay());
 		const dayOfWeek = date?.getDay();
@@ -39,7 +37,7 @@ export default function AppointmentForm() {
 
 		const isAfternoon: Boolean =
 			dayOfWeek === 1 || dayOfWeek === 3 ? true : false;
-		console.log('isAfternoon', isAfternoon);
+		// console.log('isAfternoon', isAfternoon);
 
 		const isEvening: Boolean =
 			dayOfWeek === 2 ||
@@ -48,7 +46,7 @@ export default function AppointmentForm() {
 			dayOfWeek === 6
 				? true
 				: false;
-		console.log('isEvening', isEvening);
+		// console.log('isEvening', isEvening);
 
 		setShowMessage(false);
 		if (!date) {
@@ -56,13 +54,13 @@ export default function AppointmentForm() {
 			setAvailableSlots([]);
 		} else {
 			if (date < new Date()) {
-				console.log('day is selected ', selected);
+				// console.log('day is selected ', selected);
 				setSelectedDate(undefined);
 				setAvailableSlots([]);
 				return;
 			} else {
 				setSelectedDate(date);
-				console.log('day is weekend', date.getDay());
+				// console.log('day is weekend', date.getDay());
 				setIsTimeTableLoading(true);
 
 				try {
@@ -105,7 +103,7 @@ export default function AppointmentForm() {
 			}
 		}
 	};
-	const [waitingListCount, setWaitingListCount] = useState(0);
+
 	const timeTableCta = async () => {
 		//FIXME button handler
 		// console.log('🟢 timeTableCta called 🟢 ');
@@ -140,20 +138,19 @@ export default function AppointmentForm() {
 			chamber,
 			time,
 		};
-		console.log('here is contData', countData);
+		// console.log('here is contData', countData);
 
 		try {
-			console.log('🟢 timeTableCta called 🟢 ');
+			// console.log('🟢 timeTableCta called 🟢 ');
 			// console.log('http', http);
 			const res = await http.post('/waitinglist/count', countData);
-			console.log('here is res', res.data.count);
+			// console.log('here is res', res.data.count);
 			setWaitingListCount(res.data.count);
 		} catch (error) {
 			console.error('❌ Error calling /waitinglist/count:', error);
 		}
 	};
 
-	const [modalOpen, setModalOpen] = useState(false);
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		try {
 			event.preventDefault();
@@ -171,13 +168,7 @@ export default function AppointmentForm() {
 				toast.error('Please fill in all required fields');
 				return;
 			}
-			// if (
-			// 	!formData.get('timetable') ||
-			// 	!formData.get('selectedCalendarDate')
-			// ) {
-			// 	setTimetableError('Please select a date and time slot');
-			// }
-			// formMeetAction(formData);
+
 			// form content
 			const name = formData.get('name') as string;
 			const email = formData.get('email') as string;
@@ -203,7 +194,7 @@ export default function AppointmentForm() {
 				date,
 				time,
 			};
-			console.log('💻 maildata', mailData);
+			// console.log('💻 maildata', mailData);
 
 			// TODO: booking endpoint
 			const res = await http.post('/bookings', mailData, {
@@ -211,7 +202,7 @@ export default function AppointmentForm() {
 					'Content-Type': 'application/json',
 				},
 			});
-			console.log('💻here is res', res.data);
+			// console.log('💻here is res', res);
 
 			// end form content
 
@@ -236,6 +227,7 @@ export default function AppointmentForm() {
 			setShowMessage(true);
 			setSelectedChamber({ chamber: 'chamber1', timeSlot: 'morning' });
 		} catch (error: any) {
+			console.log(error);
 			console.log(error.response.data.message);
 			toast.error('Something went wrong!');
 		}
@@ -435,7 +427,6 @@ export default function AppointmentForm() {
 					<textarea
 						id="message"
 						name="message"
-						required
 						rows={4}
 						className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 						placeholder="Please Provide Topics For the Discussion..."></textarea>

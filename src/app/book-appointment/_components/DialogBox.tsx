@@ -37,7 +37,7 @@ export function SearchModal({
 					data: { email: query.email },
 				}
 			);
-			console.log('💻cancel res', res);
+			// console.log('💻cancel res', res);
 
 			toast.success('Booking cancelled successfully');
 			setOpen(!true);

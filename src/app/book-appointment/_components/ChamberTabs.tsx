@@ -39,17 +39,17 @@ const ChamberTabs: React.FC<ChamberTabsProps> = ({
 	};
 
 	useEffect(() => {
-		console.log('chamber1Time before select', chamber1Time);
+		// console.log('chamber1Time before select', chamber1Time);
 		onChamberSelect({
 			chamber: activeTab,
 			timeSlot: activeTab === 'chamber1' ? chamber1Time : chamber2Time,
 		});
-		console.log(
-			'chamber1Time after select',
-			chamber1Time,
-			'chamber2Time',
-			chamber2Time
-		);
+		// console.log(
+		// 	'chamber1Time after select',
+		// 	chamber1Time,
+		// 	'chamber2Time',
+		// 	chamber2Time
+		// );
 	}, [activeTab, chamber1Time, chamber2Time]);
 
 	return (
@@ -109,10 +109,10 @@ const ChamberTabs: React.FC<ChamberTabsProps> = ({
 									| 'morning'
 									| 'evening';
 								setChamber1Time(value);
-								console.log(
-									'chamber1Time from chamber select',
-									value
-								);
+								// console.log(
+								// 	'chamber1Time from chamber select',
+								// 	value
+								// );
 								chamberHandle(selected);
 							}}
 							className="w-full border rounded p-2">
@@ -135,10 +135,10 @@ const ChamberTabs: React.FC<ChamberTabsProps> = ({
 									| 'afternoon'
 									| 'evening';
 								setChamber2Time(value);
-								console.log(
-									'chamber2Time from chamber select',
-									value
-								);
+								// console.log(
+								// 	'chamber2Time from chamber select',
+								// 	value
+								// );
 								chamberHandle(selected);
 							}}
 							className="w-full border rounded p-2">

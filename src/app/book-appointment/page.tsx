@@ -1,6 +1,7 @@
 import React from 'react';
 import AppointmentForm from './_components/AppointmentForm';
 import Banner from '../_components/global/Banner';
+import DentalBookingSystem from './_components/Stepper';
 
 const page = () => {
 	return (
@@ -63,7 +64,8 @@ const page = () => {
 						</ul>
 					</div>
 				</div>
-				<AppointmentForm />
+				{/* <AppointmentForm /> */}
+				<DentalBookingSystem />
 			</section>
 		</div>
 	);
